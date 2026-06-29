@@ -1,6 +1,6 @@
 ---
 name: FTShare-market-data
-description: 非凸科技金融数据技能集。覆盖 A 股股票列表、行情、IPO、大宗交易、融资融券、单股行情估值、可转债、ETF、基金、指数（含分页指数描述、下载描述 PDF、权重汇总/成份明细、下载权重 xlsx、详情/K 线/分时）、宏观经济，以及港股公司介绍/估值分析/基础视图/K线、东财美股列表/历史K线/最新行情、native 美股基础信息/利润表/现金流量表/资产负债表、港股财报三表(利润/现金流/资产负债)/东财港股指数日K线等接口（market.ft.tech / ftai.chat）。用户询问 A 股、港股、美股的代码、行情、估值、K线、指数权重/描述、新闻与宏观数据时使用。
+description: 非凸科技金融数据技能集。覆盖 A 股股票列表、全字段/实时行情列表、分时价格、IPO、大宗交易、融资融券、单股行情估值、可转债、ETF、基金、指数（含分页指数描述、下载描述 PDF、权重汇总/成份明细、下载权重 xlsx、详情/K 线/分时）、宏观经济，以及港股公司介绍/估值分析/基础视图/K线、东财美股列表/历史K线/最新行情、native 美股基础信息/利润表/现金流量表/资产负债表、港股财报三表(利润/现金流/资产负债)/东财港股指数日K线等接口（market.ft.tech / ftai.chat）。用户询问 A 股、港股、美股的代码、行情、估值、K线、指数权重/描述、新闻与宏观数据时使用。
 ---
 
 # FT AI Market Data Skills
@@ -49,7 +49,7 @@ python <RUN_PY> northbound --date 20250101
 python <RUN_PY> southbound --date 20250101
 python <RUN_PY> index-description-paginated --page 1 --page-size 20
 python <RUN_PY> index-description-download --url-hash <url_hash> --output ./index-desc.pdf
-python <RUN_PY> index-weight-summary --page 1 --page-size 20
+python <RUN_PY> index-weight-summary --index-code 000300 --page 1 --page-size 20
 python <RUN_PY> index-weight-list --index-code 000300 --page 1 --page-size 20
 python <RUN_PY> index-weight-download --url-hash <url_hash> --output ./index-weights.xlsx
 python <RUN_PY> eastmoney-concept-boards
@@ -70,6 +70,11 @@ python <RUN_PY> stock-comment-score --symbol 000001
 python <RUN_PY> stock-comment-org-participate --symbol 000001
 python <RUN_PY> stock-comment-desire --symbol 000001
 python <RUN_PY> stock-comment-focus --symbol 000001
+python <RUN_PY> stock-daec-stocks --board all --page 1 --page_size 5 --order_by "change_rate desc"
+python <RUN_PY> stock-realtime-list --board chi-next --page 1 --page_size 5
+python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --range Today
+python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --compat v2 --since TODAY
+python <RUN_PY> stock-ohlcs --symbol 600000.XSHG --compat v2 --span DAY1 --limit 5
 python <RUN_PY> limit-up-pool
 python <RUN_PY> limit-up-pool-yesterday
 python <RUN_PY> limit-up-break-pool
@@ -136,6 +141,12 @@ python <RUN_PY> hsi-daily-weight --stock_code 0700
 - **`stock-list-all-stocks`**：获取全部 A 股股票的代码和名称列表（沪深京），自动返回最新交易日数据。无需任何参数。
 
 - **`stock-quotes-list`**：查询 A 股行情列表（分页），支持按板块筛选、多字段排序。必填参数：`--order_by`、`--page_no`、`--page_size`；可选 `--filter`、`--masks`。请求头需携带 `X-Client-Name: ft-claw`（脚本已内置）。
+
+- **`stock-daec-stocks`**：查询 A 股行情列表 daec 全字段族，覆盖全市场、上证 A 股、深证 A 股、北证 A 股。必填：`--board`（all/xshg/xshe/bjse）；可选 `--page`、`--page_size`、`--filter`、`--order_by`、`--all`。
+
+- **`stock-realtime-list`**：查询 A 股 stock-list 实时精简族，覆盖创业板、科创板、新股。必填：`--board`（chi-next/star/new）；可选 `--page`、`--page_size`、`--all`。**注意：该接口族没有 all 板块，全市场用 `stock-daec-stocks --board all`。**
+
+- **`stock-intraday-prices`**：查询指定 A 股标的 1 分钟分时数据，直接映射 daec 参数。必填：`--symbol`；可选 `--range`（Today/FiveDays）、`--days`、`--ts_ms`、`--compat v2`、`--since`、`--since_ts_ms`。如需旧版 `--stock --since` 契约，可继续用 `stock-prices`。
 
 - **`stock-ipos`**：获取 A 股 IPO 列表，含发行价格、发行数量、申购日期、上市日期等，支持分页查询。必填参数：`--page`、`--page_size`；支持 `--all` 自动翻页拉取全量数据。
 
@@ -278,7 +289,9 @@ python <RUN_PY> hsi-daily-weight --stock_code 0700
 | 「A 股有哪些股票代码？」 | `stock-list-all-stocks` |
 | 「获取全市场股票列表」 | `stock-list-all-stocks` |
 | 「A 股行情列表、按涨跌幅排序、分页」 | `stock-quotes-list` |
-| 「科创板/创业板股票行情列表」 | `stock-quotes-list` |
+| 「全市场 / 上证 / 深证 / 北证 A 股实时行情全字段」 | `stock-daec-stocks` |
+| 「创业板 / 科创板 / 新股实时行情精简列表」 | `stock-realtime-list` |
+| 「科创板/创业板股票行情列表」 | `stock-realtime-list` |
 | 「查看 A 股 IPO 列表」 | `stock-ipos` |
 | 「最近有哪些新股上市？」 | `stock-ipos` |
 | 「查询某只股票的发行价格 / 申购日期」 | `stock-ipos` |
@@ -695,7 +708,7 @@ python <RUN_PY> etf-prices --etf 510050.XSHG --since TODAY
 python <RUN_PY> index-description-all
 python <RUN_PY> index-description-paginated --page 1 --page-size 20
 python <RUN_PY> index-description-download --url-hash <从列表接口取得的url_hash> --output ./index-desc.pdf
-python <RUN_PY> index-weight-summary --page 1 --page-size 20
+python <RUN_PY> index-weight-summary --index-code 000300 --page 1 --page-size 20
 python <RUN_PY> index-weight-list --index-code 000300 --date 20250320 --page 1 --page-size 20
 python <RUN_PY> index-weight-download --url-hash <url_hash> --output ./index-weights.xlsx
 python <RUN_PY> index-detail --index 000001.XSHG
@@ -733,7 +746,7 @@ python <RUN_PY> get-nth-trade-date --n 5
 - **`index-description-all`**：查询全部指数基础信息（symbol、全称、简称、pb、pe_ttm）。无需参数；`GET /gateway/api/v1/market/data/index-description-all`。
 - **`index-description-paginated`**（描述链 ①）：分页查询指数描述列表（`index_code`、`index_name`、`index_intro`、`url_hash` 等）。可选：`--page`（默认 1）、`--page-size`（默认 20，最大 100）；`GET /gateway/api/v1/market/data/index/index_description`。
 - **`index-description-download`**（描述链 ②）：按 `url_hash` 下载指数描述 PDF。必填：`--url-hash`；可选：`--output`（须在当前工作目录下）；`GET /gateway/api/v1/market/data/index/index_description/{url_hash}`。**须先用 `index-description-paginated` 取得 `url_hash`**。
-- **`index-weight-summary`**（权重链 ①）：分页查询指数权重汇总（按 `index_code` 列出各期 `date` 与 `url_hash`）。可选：`--page`、`--page-size`（默认 20，最大 100）；`GET /gateway/api/v1/market/data/index/index_weight_summary`。
+- **`index-weight-summary`**（权重链 ①）：分页查询指数权重汇总（按 `index_code` 列出各期 `date` 与 `url_hash`）。可选：`--index-code`、`--page`、`--page-size`（默认 20，最大 100）；`GET /gateway/api/v1/market/data/index/index_weight_summary`。
 - **`index-weight-list`**（权重链 ②）：分页查询指数成份权重明细。必填：`--index-code`；可选：`--date`（YYYYMMDD）、`--page`、`--page-size`（默认 20，最大 100）；`GET /gateway/api/v1/market/data/index/index_weight`。可先通过 `index-weight-summary` 确认期数与日期。
 - **`index-weight-download`**（权重链 ③）：按 `url_hash` 下载指数权重 xlsx。必填：`--url-hash`；可选：`--output`（须在当前工作目录下）；`GET /gateway/api/v1/market/data/index/index_weight/{url_hash}`。**须先用 `index-weight-list` 或 `index-weight-summary` 取得 `url_hash`**。
 - **`index-detail`**：查询单只指数详情（名称、行情点位、成交、涨跌幅、多周期涨跌幅等）。必填：`--index`；可选 `--masks`。若用户仅给名称，先通过 `index-description-all` 或 `index-list-paginated` 确认代码再查。
@@ -760,7 +773,7 @@ index-description-paginated  ──取 url_hash──▸  index-description-down
 index-weight-summary  ──取 index_code/date/url_hash──▸  index-weight-list  ──取 url_hash──▸  index-weight-download
 ```
 
-1. `index-weight-summary --page 1 --page-size 20` → 获取 `index_code` + 各期 `date` 与 `url_hash`
+1. `index-weight-summary --index-code 000300 --page 1 --page-size 20` → 获取 `index_code` + 各期 `date` 与 `url_hash`
 2. `index-weight-list --index-code 000300 --page 1 --page-size 20` → 获取成份明细，每条含 `url_hash`
 3. `index-weight-download --url-hash <上一步的 url_hash> --output ./weights.xlsx`
 
@@ -807,8 +820,9 @@ index-weight-summary  ──取 index_code/date/url_hash──▸  index-weight-
 
 ```bash
 # 示例（<RUN_PY> 为实际绝对路径）
-python <RUN_PY> stock-ohlcs --stock 688295.XSHG --since 20240101 --until 20240131
-python <RUN_PY> stock-ohlcs --stock 000001.SZ --since 20240101 --until 20260628 --interval Week
+python <RUN_PY> stock-ohlcs --symbol 688295.XSHG --since 20240101 --until 20240131
+python <RUN_PY> stock-ohlcs --symbol 000001.SZ --since 20240101 --until 20260628 --interval Week
+python <RUN_PY> stock-ohlcs --symbol 600000.XSHG --compat v2 --span DAY1 --limit 5
 python <RUN_PY> stock-prices --stock 000001.XSHG --since TODAY
 ```
 
@@ -820,7 +834,7 @@ python <RUN_PY> stock-prices --stock 000001.XSHG --since TODAY
 
 ### 1. 单只股票 OHLC K 线
 
-- **`stock-ohlcs`**：查询单只 A 股股票在指定日期区间的 K 线（开高低收、成交量、成交额，daec 日期区间）。必填：`--stock`、`--since`（YYYYMMDD）；可选 `--until`（YYYYMMDD，默认今天）、`--interval`（Day/Week/Month，默认 Day）、`--adjust`（Forward/Backward）。无年线、无 MA。
+- **`stock-ohlcs`**：查询单只 A 股标的 K 线（daec）。推荐必填：`--symbol`；旧 `--stock` 仍兼容。原始模式需 `--since`（YYYYMMDD），可选 `--until`、`--interval`（Minute/Day/Week/Month）、`--adjust`；`--compat v2` 模式可用 `--span`（DAY1/WEEK1/MONTH1）、`--limit`、`--until_ts_ms`，并返回 MA/prev_close 兼容字段。
 
 ### 2. 单只股票分时价格（一分钟级别）
 

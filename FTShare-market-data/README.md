@@ -46,8 +46,12 @@ git clone git@github.com:ftshare-lab/ftshare-skills.git
 | 用户提问（示例） | 运行时执行的命令 |
 |---|---|
 | 列出所有 A 股股票 | `python <RUN_PY> stock-list-all-stocks` |
+| 全市场 A 股实时行情按涨跌幅排序 | `python <RUN_PY> stock-daec-stocks --board all --page 1 --page_size 5 --order_by "change_rate desc"` |
+| 创业板实时行情 | `python <RUN_PY> stock-realtime-list --board chi-next --page 1 --page_size 5` |
+| 浦发银行当日分时 | `python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --range Today` |
 | 5 月有哪些财经事件 | `python <RUN_PY> financial-calendar --start-date 2026-05-01 --end-date 2026-05-31` |
-| 平安银行最近一个月的日 K 线 | `python <RUN_PY> stock-ohlcs --stock 000001.SZ --since 20260501` |
+| 平安银行最近一个月的日 K 线 | `python <RUN_PY> stock-ohlcs --symbol 000001.SZ --since 20260501` |
+| 沪深300 权重期数 | `python <RUN_PY> index-weight-summary --index-code 000300 --page 1 --page-size 20` |
 | 沪深300 成份权重 | `python <RUN_PY> index-weight-list --index-code 000300` |
 | 美国最新非农数据 | `python <RUN_PY> economic-us-economic-by-type --type nonfarm-payroll` |
 
@@ -74,10 +78,16 @@ git clone git@github.com:ftshare-lab/ftshare-skills.git
 ```bash
 # 示例
 python <RUN_PY> stock-list-all-stocks
+python <RUN_PY> stock-daec-stocks --board all --page 1 --page_size 5 --order_by "change_rate desc"
+python <RUN_PY> stock-realtime-list --board chi-next --page 1 --page_size 5
+python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --range Today
+python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --compat v2 --since TODAY
+python <RUN_PY> stock-ohlcs --symbol 600000.XSHG --compat v2 --span DAY1 --limit 5
 python <RUN_PY> stock-ipos --page 1 --page_size 20
 python <RUN_PY> stock-ipos --all
 python <RUN_PY> semantic-search-news --query 人工智能
 python <RUN_PY> etf-pcfs --date 20260309
+python <RUN_PY> index-weight-summary --index-code 000300 --page 1 --page-size 20
 python <RUN_PY> index-weight-list --index-code 000300 --page 1 --page-size 20
 python <RUN_PY> hk-candlesticks --trade-code 00700.HK --interval-unit day --until-date 2026-03-24
 python <RUN_PY> economic-china-cpi-monthly
@@ -123,7 +133,7 @@ python run.py stock-ipos --all
 | 域 | 代表子 skill |
 |---|---|
 | **交易日 / 财经日历 / 新闻** | `get-nth-trade-date`、`financial-calendar`、`semantic-search-news` |
-| **A 股行情 / 基础** | `stock-list-all-stocks`、`stock-quotes-list`、`stock-security-info`、`stock-ipos`、`stock-ohlcs`、`stock-prices`、`block-trades`、`margin-trading-details` |
+| **A 股行情 / 基础** | `stock-list-all-stocks`、`stock-quotes-list`、`stock-daec-stocks`、`stock-realtime-list`、`stock-security-info`、`stock-ipos`、`stock-ohlcs`、`stock-prices`、`stock-intraday-prices`、`block-trades`、`margin-trading-details` |
 | **A 股财报 / 业绩** | `stock-income-*`、`stock-balance-*`、`stock-cashflow-*`、`stock-performance-express-*`、`stock-performance-forecast-*` |
 | **A 股股东 / 质押 / 增减持** | `stock-holder-ten`、`stock-holder-ften`、`stock-holder-nums`、`pledge-summary`、`pledge-detail`、`stock-share-chg` |
 | **A 股公司行动** | `shareholder-meeting`、`stock-unlock-by-stock`、`stock-unlock-by-date`、`major-contract-by-date`、`major-contract-by-symbol`、`major-contract-summary` |
@@ -176,7 +186,7 @@ https://market.ft.tech/gateway/api/v1/market/data/<接口路径>
 少数接口使用不同前缀或域名（由对应 handler 内置，无需手工指定）：
 
 - `stock-security-info` 使用 `https://ftai.chat`。
-- A 股 K 线（`stock-ohlcs` / `stock-prices`）使用 `https://market.ft.tech/app`。
+- `stock-ohlcs` 和 `stock-intraday-prices` 使用 gateway daec 接口；`stock-prices` 保留旧 app 分时契约。
 - 分页列表类接口需在请求头携带 `X-Client-Name: ft-claw`（各 handler 已内置）。
 
 ## 安全与约束

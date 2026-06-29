@@ -16,6 +16,12 @@ ENDPOINT = "/gateway/api/v1/market/data/index/index_weight_summary"
 def main():
     parser = argparse.ArgumentParser(description="分页查询指数权重汇总")
     parser.add_argument(
+        "--index-code",
+        dest="index_code",
+        default=None,
+        help="指数代码，如 000300；不传则分页返回全部指数权重汇总",
+    )
+    parser.add_argument(
         "--page",
         type=int,
         default=1,
@@ -38,6 +44,8 @@ def main():
         sys.exit(1)
 
     params = {"page": args.page, "page_size": args.page_size}
+    if args.index_code:
+        params["index_code"] = args.index_code
     url = BASE_URL + ENDPOINT + "?" + urllib.parse.urlencode(params)
 
     req = urllib.request.Request(url, method="GET")
