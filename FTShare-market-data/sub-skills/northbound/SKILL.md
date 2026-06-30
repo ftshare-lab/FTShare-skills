@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询北向资金交易数据 |
-| 外部接口 | `/gateway/api/v1/market/data/northbound` |
+| 外部接口 | `/api/v1/market/data/northbound` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定交易日北向资金（沪股通、深股通）交易汇总数据 |
 

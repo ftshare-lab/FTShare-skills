@@ -10,7 +10,7 @@ description: Get goodwill impairment detail (商誉减值明细) for all stocks 
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询个股商誉减值明细 |
-| 外部接口 | GET /gateway/api/v1/market/data/goodwill/stock-impairment |
+| 外部接口 | GET /api/v1/market/data/goodwill/stock-impairment |
 | 请求方式 | GET |
 | 适用场景 | 查询存在商誉减值的个股数据，包含减值金额、减值占净利润比例等字段 |
 

@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询东财概念板块列表 |
-| 外部接口 | `/gateway/api/v1/market/data/eastmoney-concept-boards` |
+| 外部接口 | `/api/v1/market/data/eastmoney-concept-boards` |
 | 请求方式 | GET |
 | 适用场景 | 查询东财概念板块基础信息与成分代码列表，返回全量板块 |
 

@@ -10,7 +10,7 @@ description: 查询港股资产负债表（港股财报：固定资产/投资性
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 对外接口-查询港股资产负债表 |
-| 外部接口 | GET /gateway/api/v1/market/data/hk/hk-balance-{gene\|bank\|insur} |
+| 外部接口 | GET /api/v1/market/data/hk/hk-balance-{gene\|bank\|insur} |
 | 请求方式 | GET |
 | 适用场景 | 查询港股上市公司资产负债表（时点数据）。`gene` 一般企业 150 字段、`bank` 银行 84 字段、`insur` 保险 85 字段。用 `--company_type` 选择。 |
 

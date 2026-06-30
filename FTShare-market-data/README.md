@@ -46,8 +46,12 @@ git clone git@github.com:ftshare-lab/ftshare-skills.git
 | 用户提问（示例） | 运行时执行的命令 |
 |---|---|
 | 列出所有 A 股股票 | `python <RUN_PY> stock-list-all-stocks` |
+| 全市场 A 股实时行情按涨跌幅排序 | `python <RUN_PY> stock-daec-stocks --board all --page 1 --page_size 5 --order_by "change_rate desc"` |
+| 创业板实时行情 | `python <RUN_PY> stock-realtime-list --board chi-next --page 1 --page_size 5` |
+| 浦发银行当日分时 | `python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --range Today` |
 | 5 月有哪些财经事件 | `python <RUN_PY> financial-calendar --start-date 2026-05-01 --end-date 2026-05-31` |
-| 平安银行最近一个月的日 K 线 | `python <RUN_PY> stock-ohlcs --stock 000001.SZ --since 20260501` |
+| 平安银行最近一个月的日 K 线 | `python <RUN_PY> stock-ohlcs --symbol 000001.SZ --since 20260501` |
+| 沪深300 权重期数 | `python <RUN_PY> index-weight-summary --index-code 000300 --page 1 --page-size 20` |
 | 沪深300 成份权重 | `python <RUN_PY> index-weight-list --index-code 000300` |
 | 美国最新非农数据 | `python <RUN_PY> economic-us-economic-by-type --type nonfarm-payroll` |
 
@@ -74,14 +78,26 @@ git clone git@github.com:ftshare-lab/ftshare-skills.git
 ```bash
 # 示例
 python <RUN_PY> stock-list-all-stocks
+python <RUN_PY> stock-daec-stocks --board all --page 1 --page_size 5 --order_by "change_rate desc"
+python <RUN_PY> stock-realtime-list --board chi-next --page 1 --page_size 5
+python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --range Today
+python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --compat v2 --since TODAY
+python <RUN_PY> stock-ohlcs --symbol 600000.XSHG --compat v2 --span DAY1 --limit 5
 python <RUN_PY> stock-ipos --page 1 --page_size 20
 python <RUN_PY> stock-ipos --all
 python <RUN_PY> semantic-search-news --query 人工智能
 python <RUN_PY> etf-pcfs --date 20260309
+python <RUN_PY> index-weight-summary --index-code 000300 --page 1 --page-size 20
 python <RUN_PY> index-weight-list --index-code 000300 --page 1 --page-size 20
 python <RUN_PY> hk-candlesticks --trade-code 00700.HK --interval-unit day --until-date 2026-03-24
 python <RUN_PY> economic-china-cpi-monthly
 python <RUN_PY> us-income --stock_code NVDA --period 2024 --report_type Q4
+```
+
+所有 `market.ft.tech` handler 默认使用 `https://market.ft.tech/gateway`。本地或内网服务可通过环境变量切换 API 地址：
+
+```bash
+FTSHARE_BASE_URL=http://127.0.0.1:8000/ python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --compat v2 --since TODAY
 ```
 
 > `run.py` 内部通过 `__file__` 自定位，无论安装在何处都能正确找到各子 skill 的脚本。
@@ -123,7 +139,7 @@ python run.py stock-ipos --all
 | 域 | 代表子 skill |
 |---|---|
 | **交易日 / 财经日历 / 新闻** | `get-nth-trade-date`、`financial-calendar`、`semantic-search-news` |
-| **A 股行情 / 基础** | `stock-list-all-stocks`、`stock-quotes-list`、`stock-security-info`、`stock-ipos`、`stock-ohlcs`、`stock-prices`、`block-trades`、`margin-trading-details` |
+| **A 股行情 / 基础** | `stock-list-all-stocks`、`stock-quotes-list`、`stock-daec-stocks`、`stock-realtime-list`、`stock-security-info`、`stock-ipos`、`stock-ohlcs`、`stock-prices`、`stock-intraday-prices`、`block-trades`、`margin-trading-details` |
 | **A 股财报 / 业绩** | `stock-income-*`、`stock-balance-*`、`stock-cashflow-*`、`stock-performance-express-*`、`stock-performance-forecast-*` |
 | **A 股股东 / 质押 / 增减持** | `stock-holder-ten`、`stock-holder-ften`、`stock-holder-nums`、`pledge-summary`、`pledge-detail`、`stock-share-chg` |
 | **A 股公司行动** | `shareholder-meeting`、`stock-unlock-by-stock`、`stock-unlock-by-date`、`major-contract-by-date`、`major-contract-by-symbol`、`major-contract-summary` |
@@ -167,21 +183,28 @@ cat sub-skills/stock-list-all-stocks/SKILL.md
 
 ## Base URL 配置
 
-所有接口均以 `https://market.ft.tech` 为基础域名，使用 HTTP GET：
+`market.ft.tech` 接口默认以 `https://market.ft.tech/gateway` 为基础地址，使用 HTTP GET：
 
 ```text
-https://market.ft.tech/gateway/api/v1/market/data/<接口路径>
+/api/v1/market/data/<接口路径>
 ```
 
-少数接口使用不同前缀或域名（由对应 handler 内置，无需手工指定）：
+如需切到本地或内网服务，设置 `FTSHARE_BASE_URL`。变量里是否带 `/gateway` 会原样保留：
+
+```bash
+FTSHARE_BASE_URL=http://127.0.0.1:8000/ python <RUN_PY> stock-list-all-stocks
+FTSHARE_BASE_URL=http://127.0.0.1:8000/gateway/ python <RUN_PY> stock-list-all-stocks
+```
+
+少数接口使用不同域名（由对应 handler 内置，无需手工指定）：
 
 - `stock-security-info` 使用 `https://ftai.chat`。
-- A 股 K 线（`stock-ohlcs` / `stock-prices`）使用 `https://market.ft.tech/app`。
+- 其他 `market.ft.tech` 接口均可通过 `FTSHARE_BASE_URL` 切换基础地址。
 - 分页列表类接口需在请求头携带 `X-Client-Name: ft-claw`（各 handler 已内置）。
 
 ## 安全与约束
 
-- **域名白名单**：每个 handler 通过 `safe_urlopen` 强制校验请求协议为 `https` 且主机为 `market.ft.tech`，非法 URL 直接拒绝。
+- **域名白名单**：使用 `safe_urlopen` 的 handler 会校验请求协议和主机匹配当前基础地址；设置 `FTSHARE_BASE_URL` 后按该地址校验。
 - **子 skill 白名单**：`run.py` 仅允许 `sub-skills/<名称>/scripts/handler.py` 形态的子 skill，防止路径遍历。
 - **下载落盘限制**：含 `--output` 的下载类接口（如 `index-description-download`、`index-weight-download`、`etf-pcf-download`）仅允许写入**当前工作目录**下的路径。
 - **依赖前序接口的参数**：下载类接口的 `url_hash` / `filename` 须先由对应的列表接口取得，勿硬编码。

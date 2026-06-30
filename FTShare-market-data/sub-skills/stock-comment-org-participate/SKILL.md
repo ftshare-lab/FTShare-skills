@@ -10,7 +10,7 @@ description: 查询指定股票的千股千评机构参与度走势（market.ft.
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 机构参与度 |
-| 外部接口 | `GET /gateway/api/v1/market/data/stock-comment/org-participate` |
+| 外部接口 | `GET /api/v1/market/data/stock-comment/org-participate` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定股票的历史机构参与度走势 |
 

@@ -5,8 +5,9 @@ import json
 import sys
 import urllib.error
 import urllib.request
+import os
 
-BASE_URL = "https://market.ft.tech"
+BASE_URL = os.environ.get("FTSHARE_BASE_URL", "https://market.ft.tech/gateway").rstrip("/")
 
 
 def main():
@@ -16,7 +17,7 @@ def main():
     parser.add_argument("--search", default=None, help="搜索板块名称或代码")
     args = parser.parse_args()
 
-    url = f"{BASE_URL}/gateway/api/v1/market/data/ths-board-list"
+    url = f"{BASE_URL}/api/v1/market/data/ths-board-list"
     req = urllib.request.Request(url, method="GET")
     req.add_header("Accept", "application/json")
 

@@ -4,8 +4,9 @@ import json
 import sys
 import urllib.error
 import urllib.request
+import os
 
-BASE_URL = "https://market.ft.tech"
+BASE_URL = os.environ.get("FTSHARE_BASE_URL", "https://market.ft.tech/gateway").rstrip("/")
 
 
 def _is_a_share(symbol):
@@ -26,7 +27,7 @@ def _is_a_share(symbol):
 
 
 def main():
-    url = f"{BASE_URL}/gateway/api/v1/market/data/limit-up-pool"
+    url = f"{BASE_URL}/api/v1/market/data/limit-up-pool"
     req = urllib.request.Request(url, method="GET")
     req.add_header("Accept", "application/json")
 

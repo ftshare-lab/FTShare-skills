@@ -10,7 +10,7 @@ description: Get China PMI monthly data (中国 PMI 月度). Use when user asks 
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | PMI 数据（月度汇总计算结果） |
-| 外部接口 | GET /gateway/api/v1/market/data/economic/china-pmi |
+| 外部接口 | GET /api/v1/market/data/economic/china-pmi |
 | 请求方式 | GET |
 | 适用场景 | 获取中国制造业与非制造业 PMI 月度数据，含当月值、同比、环比等 |
 
@@ -51,7 +51,7 @@ python script/handler.py
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/economic/china-pmi
+GET /api/v1/market/data/economic/china-pmi
 ```
 
 ## 6. 注意事项

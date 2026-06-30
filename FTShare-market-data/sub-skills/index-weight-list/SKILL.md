@@ -10,7 +10,7 @@ description: 分页查询指数成份权重明细（market.ft.tech）。必填 i
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 分页查询指数权重列表 |
-| 外部接口 | `/gateway/api/v1/market/data/index/index_weight` |
+| 外部接口 | `/api/v1/market/data/index/index_weight` |
 | 请求方式 | GET |
 | 适用场景 | 按指数代码（及可选日期）分页查询成份权重明细；每条记录含成份代码、名称、权重比例及该期文件 `url_hash` |
 
@@ -85,5 +85,5 @@ python scripts/handler.py --index-code 000300 --date 20250320 --page 1 --page-si
 ## 6. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/index/index_weight?index_code=000300&date=20250320&page=1&page_size=20
+GET /api/v1/market/data/index/index_weight?index_code=000300&date=20250320&page=1&page_size=20
 ```

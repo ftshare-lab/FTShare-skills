@@ -10,7 +10,7 @@ description: Get yesterday's limit-up stock pool (昨日涨停股池). Use when 
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询昨日涨停股池 |
-| 外部接口 | `GET /gateway/api/v1/market/data/limit-up-pool-yesterday` |
+| 外部接口 | `GET /api/v1/market/data/limit-up-pool-yesterday` |
 | 请求方式 | GET |
 | 适用场景 | 查询上一个交易日涨停的 A 股股票列表 |
 

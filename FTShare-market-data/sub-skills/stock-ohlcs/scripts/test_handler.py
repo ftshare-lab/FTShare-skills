@@ -52,6 +52,14 @@ class TestBuildParams(unittest.TestCase):
         with self.assertRaises(ValueError):
             handler.build_params("600000.XSHG", "202401", "20240131")
 
+    def test_compat_v2_without_dates(self):
+        p = handler.build_params("600000.XSHG", compat="v2", span="DAY1", limit=5)
+        self.assertEqual(p["symbol"], "600000.XSHG")
+        self.assertEqual(p["compat"], "v2")
+        self.assertEqual(p["span"], "DAY1")
+        self.assertEqual(p["limit"], 5)
+        self.assertNotIn("interval", p)
+
 
 class TestFetch(unittest.TestCase):
     def setUp(self):
@@ -89,6 +97,18 @@ class TestFetch(unittest.TestCase):
         self.assertEqual(rec["close"], "8.28")
         self.assertIsInstance(rec["open_ts_ms"], str)
         self.assertIn("T", rec["open_ts_ms"])
+
+    @patch.object(handler, "safe_urlopen")
+    def test_compat_v2_returns_server_object(self, mock_open):
+        mock_open.return_value.__enter__.return_value.read.return_value = (
+            b'{"current_time":"2026-06-29T15:03:10+08:00","ohlcs":[{"ctm":1782748799999}],"ma5":[]}'
+        )
+        result = handler.fetch("600000.XSHG", compat="v2", span="DAY1", limit=5)
+        url = mock_open.call_args[0][0].full_url
+        self.assertIn("compat=v2", url)
+        self.assertIn("span=DAY1", url)
+        self.assertEqual(result["ohlcs"][0]["ctm"], 1782748799999)
+        self.assertNotIn("open_ts_ms", result["ohlcs"][0])
 
     @patch.object(handler, "safe_urlopen")
     def test_http_error_exits(self, mock_open):
@@ -144,6 +164,18 @@ class TestMain(unittest.TestCase):
         with patch.object(sys, "argv", ["handler.py", "--stock", "600000.XSHG"]):
             with self.assertRaises(SystemExit):
                 handler.main()
+
+    @patch.object(handler, "safe_urlopen")
+    def test_main_compat_v2_uses_symbol_without_since(self, mock_open):
+        mock_open.return_value.__enter__.return_value.read.return_value = b'{"ohlcs":[]}'
+        with patch.object(sys, "argv", ["handler.py", "--symbol", "600000.XSHG", "--compat", "v2", "--span", "DAY1", "--limit", "5"]):
+            with patch("sys.stdout", new_callable=StringIO) as fake_out:
+                handler.main()
+                result = json.loads(fake_out.getvalue())
+                self.assertEqual(result["ohlcs"], [])
+            url = mock_open.call_args[0][0].full_url
+            self.assertIn("symbol=600000.XSHG", url)
+            self.assertIn("compat=v2", url)
 
 
 class TestSafeUrlopen(unittest.TestCase):

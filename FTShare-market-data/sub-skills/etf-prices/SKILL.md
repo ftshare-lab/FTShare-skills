@@ -10,7 +10,7 @@ description: 单只 ETF 分钟级分时价格（market.ft.tech）。用户问某
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询单只 ETF 分时价格（一分钟级别） |
-| 外部接口 | `GET /gateway/api/v1/market/data/daec/history/prices` |
+| 外部接口 | `GET /api/v1/market/data/daec/history/prices` |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股指定 ETF 在指定时间范围内的分时数据（一分钟一根），用于分时图、当日/多日走势；每条含该分钟的价格、成交量、成交额、均价、时间戳；支持从今天起、从五日前起、从 N 个交易日前起或从指定毫秒时间戳起 |
 

@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 获取融资融券明细 |
-| 外部接口 | `/gateway/api/v1/market/data/margin-trading-details` |
+| 外部接口 | `/api/v1/market/data/margin-trading-details` |
 | 请求方式 | GET / POST |
 | 适用场景 | 获取 A 股融资融券明细列表，按融资净买入额降序排列，支持分页查询 |
 

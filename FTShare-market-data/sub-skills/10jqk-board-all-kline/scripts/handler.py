@@ -7,8 +7,9 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import os
 
-BASE_URL = "https://market.ft.tech"
+BASE_URL = os.environ.get("FTSHARE_BASE_URL", "https://market.ft.tech/gateway").rstrip("/")
 
 
 def _normalize_date(d):
@@ -41,7 +42,7 @@ def main():
         params["end_date"] = end
 
     qs = urllib.parse.urlencode(params)
-    url = f"{BASE_URL}/gateway/api/v1/market/data/ths-all-board-kline?{qs}"
+    url = f"{BASE_URL}/api/v1/market/data/ths-all-board-kline?{qs}"
 
     req = urllib.request.Request(url, method="GET")
     req.add_header("Accept", "application/json")

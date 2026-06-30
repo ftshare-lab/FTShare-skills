@@ -10,7 +10,7 @@ description: Get China retail sales of consumer goods monthly data (社会消费
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 社会消费品零售总额（月度汇总计算结果） |
-| 外部接口 | GET /gateway/api/v1/market/data/economic/china-retail-sales |
+| 外部接口 | GET /api/v1/market/data/economic/china-retail-sales |
 | 请求方式 | GET |
 | 适用场景 | 获取中国社会消费品零售总额月度数据，含当月值、同比、累计及累计同比等 |
 
@@ -51,7 +51,7 @@ python script/handler.py
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/economic/china-retail-sales
+GET /api/v1/market/data/economic/china-retail-sales
 ```
 
 ## 6. 注意事项

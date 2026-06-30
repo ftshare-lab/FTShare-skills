@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询南向资金交易数据 |
-| 外部接口 | `/gateway/api/v1/market/data/southbound` |
+| 外部接口 | `/api/v1/market/data/southbound` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定交易日南向资金（港股通沪、港股通深）交易汇总数据 |
 

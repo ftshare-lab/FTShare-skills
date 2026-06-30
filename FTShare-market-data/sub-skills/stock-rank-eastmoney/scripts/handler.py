@@ -6,10 +6,11 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import os
 
 SAFE_URLOPENER = urllib.request.build_opener()
 
-BASE_URL = "https://market.ft.tech"
+BASE_URL = os.environ.get("FTSHARE_BASE_URL", "https://market.ft.tech/gateway").rstrip("/")
 
 
 def safe_urlopen(req_or_url):
@@ -18,7 +19,7 @@ def safe_urlopen(req_or_url):
     else:
         url = str(req_or_url)
     parsed = urllib.parse.urlparse(url)
-    if parsed.scheme != "https" or parsed.netloc != "market.ft.tech":
+    if parsed.scheme != urllib.parse.urlparse(BASE_URL).scheme or parsed.netloc != urllib.parse.urlparse(BASE_URL).netloc:
         print(f"Invalid URL for safe_urlopen: {url}", file=sys.stderr)
         sys.exit(1)
     return SAFE_URLOPENER.open(req_or_url)
@@ -39,7 +40,7 @@ def main():
     if args.trade_date:
         params["trade_date"] = args.trade_date
 
-    url = BASE_URL + "/gateway/api/v1/market/data/eastmoney-rank"
+    url = BASE_URL + "/api/v1/market/data/eastmoney-rank"
     if params:
         url += "?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, method="GET")

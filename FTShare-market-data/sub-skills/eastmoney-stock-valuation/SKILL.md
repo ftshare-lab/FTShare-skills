@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询东财个股日估值 |
-| 外部接口 | `/gateway/api/v1/market/data/eastmoney-stock-valuation` |
+| 外部接口 | `/api/v1/market/data/eastmoney-stock-valuation` |
 | 请求方式 | GET |
 | 适用场景 | 查询全部 A 股个股的每日估值数据，包括市盈率（TTM/LYR）、市净率、市现率、市销率、PEG、总市值、流通市值、收盘价等；支持单票单日、单票历史区间及全市场查询 |
 

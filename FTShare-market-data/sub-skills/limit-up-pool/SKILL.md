@@ -10,7 +10,7 @@ description: Get today's limit-up stock pool (当日涨停股池). Use when user
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询当日涨停股池 |
-| 外部接口 | `GET /gateway/api/v1/market/data/limit-up-pool` |
+| 外部接口 | `GET /api/v1/market/data/limit-up-pool` |
 | 请求方式 | GET |
 | 适用场景 | 查询当前交易日正在涨停的 A 股股票列表（`limit_up_enter` 非空的股票），包含封板时间、炸板次数等字段 |
 

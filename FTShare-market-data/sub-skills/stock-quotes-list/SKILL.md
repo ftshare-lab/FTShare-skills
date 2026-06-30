@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询 A 股行情列表（分页） |
-| 外部接口 | `https://market.ft.tech/gateway/api/v1/market/data/daec/stocks` |
+| 外部接口 | `/api/v1/market/data/daec/stocks` |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股（沪深京）股票行情列表，支持按板块筛选、多字段排序与分页，用于行情中心「个股行情」等列表展示 |
 

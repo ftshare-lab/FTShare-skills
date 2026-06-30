@@ -10,7 +10,7 @@ description: Get China tax revenue monthly data (全国税收收入 月度). Use
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 全国税收收入（月度汇总计算结果） |
-| 外部接口 | GET /gateway/api/v1/market/data/economic/china-tax-revenue |
+| 外部接口 | GET /api/v1/market/data/economic/china-tax-revenue |
 | 请求方式 | GET |
 | 适用场景 | 获取中国全国税收收入月度数据，含当月值、累计值、累计同比、月度环比、月度同比等 |
 
@@ -52,7 +52,7 @@ python script/handler.py
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/economic/china-tax-revenue
+GET /api/v1/market/data/economic/china-tax-revenue
 ```
 
 ## 6. 注意事项

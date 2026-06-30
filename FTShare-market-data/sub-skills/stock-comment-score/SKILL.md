@@ -10,7 +10,7 @@ description: 查询指定股票的千股千评历史综合评分走势（market.
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 综合评价历史评分 |
-| 外部接口 | `GET /gateway/api/v1/market/data/stock-comment/score` |
+| 外部接口 | `GET /api/v1/market/data/stock-comment/score` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定股票的历史综合评分走势 |
 

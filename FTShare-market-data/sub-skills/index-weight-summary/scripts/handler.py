@@ -2,6 +2,7 @@
 """分页查询指数权重汇总（market.ft.tech）"""
 import argparse
 import json
+import os
 import sys
 import urllib.error
 import urllib.parse
@@ -9,12 +10,26 @@ import urllib.request
 
 SAFE_URLOPENER = urllib.request.build_opener()
 
-BASE_URL = "https://market.ft.tech"
-ENDPOINT = "/gateway/api/v1/market/data/index/index_weight_summary"
+DEFAULT_BASE_URL = "https://market.ft.tech/gateway/"
+ENDPOINT = "api/v1/market/data/index/index_weight_summary"
+
+
+def base_url() -> str:
+    return os.environ.get("FTSHARE_BASE_URL", DEFAULT_BASE_URL).rstrip("/") + "/"
+
+
+def build_url(params: dict) -> str:
+    return urllib.parse.urljoin(base_url(), ENDPOINT) + "?" + urllib.parse.urlencode(params)
 
 
 def main():
     parser = argparse.ArgumentParser(description="分页查询指数权重汇总")
+    parser.add_argument(
+        "--index-code",
+        dest="index_code",
+        default=None,
+        help="指数代码，如 000300；不传则分页返回全部指数权重汇总",
+    )
     parser.add_argument(
         "--page",
         type=int,
@@ -38,7 +53,9 @@ def main():
         sys.exit(1)
 
     params = {"page": args.page, "page_size": args.page_size}
-    url = BASE_URL + ENDPOINT + "?" + urllib.parse.urlencode(params)
+    if args.index_code:
+        params["index_code"] = args.index_code
+    url = build_url(params)
 
     req = urllib.request.Request(url, method="GET")
     req.add_header("X-Client-Name", "ft-claw")

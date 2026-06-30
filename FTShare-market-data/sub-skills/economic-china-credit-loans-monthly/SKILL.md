@@ -10,7 +10,7 @@ description: Get China credit/loans monthly data (中国信贷数据 月度). Us
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 信贷数据（月度汇总计算结果） |
-| 外部接口 | GET /gateway/api/v1/market/data/economic/china-credit-loans |
+| 外部接口 | GET /api/v1/market/data/economic/china-credit-loans |
 | 请求方式 | GET |
 | 适用场景 | 获取中国信贷数据月度汇总，含新增信贷、同比、环比、当年累计及累计同比等 |
 
@@ -52,7 +52,7 @@ python script/handler.py
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/economic/china-credit-loans
+GET /api/v1/market/data/economic/china-credit-loans
 ```
 
 ## 6. 注意事项

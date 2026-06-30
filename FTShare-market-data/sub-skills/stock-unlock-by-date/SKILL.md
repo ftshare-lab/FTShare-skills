@@ -10,7 +10,7 @@ description: 按解禁日期范围查询限售解禁批次及股东明细（mark
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 按解禁日期范围查询限售解禁 |
-| 外部接口 | `GET /gateway/api/v1/market/data/unlock/stock-unlock-by-date` |
+| 外部接口 | `GET /api/v1/market/data/unlock/stock-unlock-by-date` |
 | 请求方式 | GET |
 | 适用场景 | 按解禁日期范围分页查询限售解禁批次及股东明细 |
 
@@ -39,5 +39,5 @@ python <RUN_PY> stock-unlock-by-date --start_date 2025-06-01 --end_date 2025-06-
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/unlock/stock-unlock-by-date?start_date=2025-06-01&end_date=2025-06-30&page=1&page_size=50
+GET /api/v1/market/data/unlock/stock-unlock-by-date?start_date=2025-06-01&end_date=2025-06-30&page=1&page_size=50
 ```

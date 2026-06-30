@@ -10,7 +10,7 @@ description: 单只 ETF OHLC K 线（market.ft.tech）。用户问某只 ETF 的
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询单只 ETF OHLC K 线 |
-| 外部接口 | `GET /gateway/api/v1/market/data/daec/history/ohlcs` |
+| 外部接口 | `GET /api/v1/market/data/daec/history/ohlcs` |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股指定 ETF 在指定日期区间、周期的 K 线（开高低收、成交量、成交额），支持日/周/月线与前/后复权 |
 

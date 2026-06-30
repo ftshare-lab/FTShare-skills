@@ -10,7 +10,7 @@ description: Get single index detail (单只指数详情). Use when user asks ab
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询单只指数详情 |
-| 外部接口 | `GET /gateway/api/v1/market/data/daec/index?symbol=:index` |
+| 外部接口 | `GET /api/v1/market/data/daec/index?symbol=:index` |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股指定指数的详情（名称、行情点位、成交、涨跌幅等）；支持通过 masks 按需返回部分字段 |
 
@@ -85,13 +85,13 @@ python <RUN_PY> index-detail --index 399001.XSHE --masks name,symkey,latest,chan
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/daec/index?symbol=000001.XSHG
+GET /api/v1/market/data/daec/index?symbol=000001.XSHG
 ```
 
 ### 完整请求示例（curl）
 
 ```bash
-curl -X GET 'https://market.ft.tech/gateway/api/v1/market/data/daec/index?symbol=000001.XSHG' \
+curl -X GET "<BASE_URL>/api/v1/market/data/daec/index?symbol=000001.XSHG" \
   -H 'X-Client-Name: ft-claw' \
   -H 'Content-Type: application/json'
 ```

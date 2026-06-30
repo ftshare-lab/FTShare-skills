@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询东财板块成分股 |
-| 外部接口 | `/gateway/api/v1/market/data/eastmoney-board-constituents` |
+| 外部接口 | `/api/v1/market/data/eastmoney-board-constituents` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定东财板块的全部成分股代码和名称 |
 

@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询东财美股最新日 K 线 |
-| 外部接口 | `/gateway/api/v1/market/data/eastmoney-us-stock-latest-ohlc` |
+| 外部接口 | `/api/v1/market/data/eastmoney-us-stock-latest-ohlc` |
 | 请求方式 | GET |
 | 适用场景 | 分页查询东财美股最新一根日 K 线（最后一行 OHLC）；可按股票代码过滤，不传则返回全部美股 |
 

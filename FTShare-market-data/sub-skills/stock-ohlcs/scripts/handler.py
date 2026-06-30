@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""查询单只 A 股股票 OHLC K 线（daec history/ohlcs，日期区间）"""
+"""查询单只 A 股股票 OHLC K 线（daec history/ohlcs）"""
 import argparse
 import json
+import os
 import re
 import sys
 import time
@@ -15,8 +16,8 @@ SAFE_URLOPENER = urllib.request.build_opener()
 
 BEIJING_TZ = timezone(timedelta(hours=8))
 
-BASE_URL = "https://market.ft.tech"
-ENDPOINT = "/gateway/api/v1/market/data/daec/history/ohlcs"
+DEFAULT_BASE_URL = "https://market.ft.tech/gateway/"
+ENDPOINT = "api/v1/market/data/daec/history/ohlcs"
 
 def safe_urlopen(req_or_url):
     if isinstance(req_or_url, urllib.request.Request):
@@ -24,7 +25,8 @@ def safe_urlopen(req_or_url):
     else:
         url = str(req_or_url)
     parsed = urllib.parse.urlparse(url)
-    if parsed.scheme != "https" or parsed.netloc != "market.ft.tech":
+    allowed = urllib.parse.urlparse(base_url())
+    if parsed.scheme != allowed.scheme or parsed.netloc != allowed.netloc:
         print(f"Invalid URL for safe_urlopen: {url}", file=sys.stderr)
         sys.exit(1)
     return SAFE_URLOPENER.open(req_or_url)
@@ -37,6 +39,14 @@ HEADERS = {
 _DATE_RE = re.compile(r"^\d{8}$")
 
 
+def base_url() -> str:
+    return os.environ.get("FTSHARE_BASE_URL", DEFAULT_BASE_URL).rstrip("/") + "/"
+
+
+def build_url(params: dict) -> str:
+    return urllib.parse.urljoin(base_url(), ENDPOINT) + "?" + urllib.parse.urlencode(params)
+
+
 def ms_to_iso(ms: Optional[int]) -> Optional[str]:
     """将毫秒时间戳转为北京时间 ISO 字符串（YYYY-MM-DDTHH:mm:ss）。"""
     if ms is None:
@@ -44,14 +54,41 @@ def ms_to_iso(ms: Optional[int]) -> Optional[str]:
     return datetime.fromtimestamp(ms / 1000.0, tz=BEIJING_TZ).strftime("%Y-%m-%dT%H:%M:%S")
 
 
-def build_params(symbol: str, since: str, until: str, interval: str = "Day", adjust: Optional[str] = None) -> dict:
-    """构造 daec history/ohlcs 查询参数。since/until 为 YYYYMMDD。"""
-    if not _DATE_RE.match(since):
+def build_params(
+    symbol: str,
+    since: Optional[str] = None,
+    until: Optional[str] = None,
+    interval: str = "Day",
+    adjust: Optional[str] = None,
+    compat: Optional[str] = None,
+    span: Optional[str] = None,
+    limit: Optional[int] = None,
+    until_ts_ms: Optional[int] = None,
+) -> dict:
+    """构造 daec history/ohlcs 查询参数。原始模式校验 YYYYMMDD 日期。"""
+    if compat != "v2" and not since:
+        raise ValueError("since 为原始模式必填参数，格式 YYYYMMDD")
+    if since and not _DATE_RE.match(since):
         raise ValueError(f"since 需为 YYYYMMDD（8 位数字）: {since!r}")
-    if not _DATE_RE.match(until):
+    if until and not _DATE_RE.match(until):
         raise ValueError(f"until 需为 YYYYMMDD（8 位数字）: {until!r}")
-    params = {"symbol": symbol, "since": since, "until": until, "interval": interval}
-    if adjust and adjust != "None":
+
+    params = {"symbol": symbol}
+    if since:
+        params["since"] = since
+    if until:
+        params["until"] = until
+    if compat:
+        params["compat"] = compat
+    if span:
+        params["span"] = span
+    if limit is not None:
+        params["limit"] = limit
+    if until_ts_ms is not None:
+        params["until_ts_ms"] = until_ts_ms
+    if compat != "v2" and interval:
+        params["interval"] = interval
+    if adjust and (compat == "v2" or adjust != "None"):
         params["adjust"] = adjust
     return params
 
@@ -84,13 +121,24 @@ def _get_json(url: str):
     sys.exit(1)
 
 
-def fetch(stock: str, since: str, until: str, interval: str = "Day", adjust: Optional[str] = None) -> dict:
-    params = build_params(stock, since, until, interval, adjust)
-    url = f"{BASE_URL}{ENDPOINT}?{urllib.parse.urlencode(params)}"
+def fetch(
+    symbol: str,
+    since: Optional[str] = None,
+    until: Optional[str] = None,
+    interval: str = "Day",
+    adjust: Optional[str] = None,
+    compat: Optional[str] = None,
+    span: Optional[str] = None,
+    limit: Optional[int] = None,
+    until_ts_ms: Optional[int] = None,
+) -> dict:
+    params = build_params(symbol, since, until, interval, adjust, compat, span, limit, until_ts_ms)
+    url = build_url(params)
     data = _get_json(url)
 
-    # daec 返回裸数组，统一包装为 {"ohlcs": [...]}；
-    # 将每条 open_ts_ms / close_ts_ms（毫秒）转为北京时间 ISO 字符串。
+    if compat == "v2" and isinstance(data, dict):
+        return data
+
     ohlcs = data if isinstance(data, list) else data.get("ohlcs", [])
     for o in ohlcs:
         if isinstance(o, dict):
@@ -102,15 +150,16 @@ def fetch(stock: str, since: str, until: str, interval: str = "Day", adjust: Opt
 
 
 def main():
-    parser = argparse.ArgumentParser(description="查询单只 A 股股票 OHLC K 线（daec，日期区间）")
+    parser = argparse.ArgumentParser(description="查询单只 A 股股票 OHLC K 线（daec）")
+    parser.add_argument("--symbol", default=None, help="标的代码，如 600000.XSHG")
     parser.add_argument(
         "--stock",
-        required=True,
+        default=None,
         help="股票标的键，需携带市场后缀，如 688295.XSHG / 000001.SZ / 920036.BJ",
     )
     parser.add_argument(
         "--since",
-        required=True,
+        default=None,
         help="起始日期，格式 YYYYMMDD，如 20240101",
     )
     parser.add_argument(
@@ -121,8 +170,8 @@ def main():
     parser.add_argument(
         "--interval",
         default="Day",
-        choices=["Day", "Week", "Month"],
-        help="K 线周期：Day（日线，默认）、Week（周线）、Month（月线）",
+        choices=["Minute", "Day", "Week", "Month"],
+        help="原始模式 K 线周期：Minute、Day（日线，默认）、Week（周线）、Month（月线）",
     )
     parser.add_argument(
         "--adjust",
@@ -130,11 +179,30 @@ def main():
         choices=["Forward", "Backward", "None"],
         help="复权类型：Forward（前复权，默认）、Backward（后复权）、None（不复权）",
     )
+    parser.add_argument("--compat", choices=["v2"], default=None, help="兼容模式：v2")
+    parser.add_argument("--span", choices=["DAY1", "WEEK1", "MONTH1"], default=None, help="v2 兼容模式 K 线周期")
+    parser.add_argument("--limit", type=int, default=None, help="v2 兼容模式返回最近 N 根 K 线")
+    parser.add_argument("--until_ts_ms", type=int, default=None, help="v2 兼容模式截止毫秒时间戳")
     args = parser.parse_args()
 
-    until = args.until or datetime.now(tz=BEIJING_TZ).strftime("%Y%m%d")
+    symbol = args.symbol or args.stock
+    if not symbol:
+        print("--symbol 为必填参数；仍兼容旧参数 --stock", file=sys.stderr)
+        sys.exit(1)
+
+    until = args.until or (None if args.compat == "v2" else datetime.now(tz=BEIJING_TZ).strftime("%Y%m%d"))
     try:
-        result = fetch(args.stock, args.since, until, args.interval, args.adjust)
+        result = fetch(
+            symbol,
+            args.since,
+            until,
+            args.interval,
+            args.adjust,
+            args.compat,
+            args.span,
+            args.limit,
+            args.until_ts_ms,
+        )
     except ValueError as e:
         print(str(e), file=sys.stderr)
         sys.exit(1)
