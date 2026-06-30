@@ -2,7 +2,7 @@
 
 感谢你关注 `FTShare-skills`。
 
-本仓库是 ftshare 生态的 Agent Skill 大仓库，用于沉淀金融数据 Skill 和投研业务 Skill。贡献内容主要分为两类：
+本仓库是 ftshare 生态的 Agent Skill 仓库，用于沉淀金融数据 Skill 和投研业务 Skill。贡献内容主要分为两类：
 
 1. 数据级 Skill：封装 FTShare 金融数据接口，让 Agent 能稳定获取结构化数据。
 2. 业务级 Skill：围绕个股分析、财报解读、行业分析、复盘、持仓分析等投研任务组织工作流。

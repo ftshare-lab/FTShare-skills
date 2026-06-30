@@ -3,7 +3,7 @@
 ![Python 3](https://img.shields.io/badge/python-3.x-blue)
 ![Status](https://img.shields.io/badge/status-early_stage-orange)
 
-`FTShare-skills` 是 ftshare 开源生态中的 Agent Skill 大仓库，用于沉淀金融数据 Skill 和投研业务 Skill。
+`FTShare-skills` 是 ftshare 开源生态中的 Agent Skill 仓库，用于沉淀金融数据 Skill 和投研业务 Skill。
 
 本仓库面向 Claude Code、Codex、OpenClaw 等 Agent 运行时，目标是把 FTShare 的金融数据能力和投研业务流程封装成 Agent 可理解、可调用、可复用的 Skill，让 Agent 能从“调用数据”进一步走向“完成投研任务”。
 
@@ -36,7 +36,7 @@ FTShare-skills/
 
 当前说明：
 
-- 根目录 README 只说明整个 Skill 大仓库的定位和结构。
+- 根目录 README 只说明整个 Skill 仓库的定位和结构。
 - 具体 Skill 的安装、调用、参数和示例，请进入对应子目录查看 README。
 - 当前可用的 Skill 是 `FTShare-market-data`。
 - 业务级 Skill 会在后续版本中逐步加入。
@@ -112,7 +112,7 @@ FTShare-market-data/README.md
 
 - [`ftshare-python-sdk`](https://github.com/ftshare-lab/ftshare-python-sdk)：FTShare 金融数据 Python SDK，面向开发者编程调用
 - `ftshare-mcp`：FTShare MCP 工具层，面向 Agent 工具调用
-- `FTShare-skills`：FTShare Agent Skill 大仓库，面向数据 Skill 与投研业务 Skill
+- `FTShare-skills`：FTShare Agent Skill 仓库，面向数据 Skill 与投研业务 Skill
 
 ## License
 
