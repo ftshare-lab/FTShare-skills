@@ -6,16 +6,17 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import os
 
-BASE_URL = "https://market.ft.tech"
-ENDPOINT = "/gateway/api/v1/market/data/eastmoney-us-stock-list"
+BASE_URL = os.environ.get("FTSHARE_BASE_URL", "https://market.ft.tech/gateway").rstrip("/")
+ENDPOINT = "/api/v1/market/data/eastmoney-us-stock-list"
 
 SAFE_URLOPENER = urllib.request.build_opener()
 
 
 def safe_urlopen(url):
     parsed = urllib.parse.urlparse(url)
-    if parsed.scheme != "https" or parsed.netloc != "market.ft.tech":
+    if parsed.scheme != urllib.parse.urlparse(BASE_URL).scheme or parsed.netloc != urllib.parse.urlparse(BASE_URL).netloc:
         print(f"Invalid URL for safe_urlopen: {url}", file=sys.stderr)
         sys.exit(1)
     return SAFE_URLOPENER.open(url, timeout=60)

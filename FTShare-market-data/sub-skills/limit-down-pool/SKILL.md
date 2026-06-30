@@ -10,7 +10,7 @@ description: Get today's limit-down stock pool (当日跌停股池). Use when us
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询当日跌停股池 |
-| 外部接口 | `GET /gateway/api/v1/market/data/limit-down-pool` |
+| 外部接口 | `GET /api/v1/market/data/limit-down-pool` |
 | 请求方式 | GET |
 | 适用场景 | 查询当前交易日正在跌停的 A 股股票列表（`limit_down_enter` 非空的股票），包含封板时间、翘板次数、封单资金等字段 |
 

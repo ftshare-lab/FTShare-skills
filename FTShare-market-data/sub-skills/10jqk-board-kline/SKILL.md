@@ -10,7 +10,7 @@ description: Get THS board historical K-line (同花顺指定板块 K 线). Use 
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询同花顺板块历史 K 线 |
-| 外部接口 | `GET /gateway/api/v1/market/data/ths-board-kline` |
+| 外部接口 | `GET /api/v1/market/data/ths-board-kline` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定同花顺板块的历史日 K 线数据 |
 
@@ -49,7 +49,7 @@ python <RUN_PY> 10jqk-board-kline --board-code 885311 --page 1 --page-size 20
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/ths-board-kline?board_code=885311&page=1&page_size=20
+GET /api/v1/market/data/ths-board-kline?board_code=885311&page=1&page_size=20
 ```
 
 ## 6. 注意事项

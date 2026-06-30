@@ -11,7 +11,7 @@ description: 查询恒生系列指数成份股权重（HSI 恒生指数 / HSCEI 
 |------|------|
 | 接口名称 | 对外接口-查询恒生指数成分权重 |
 | 接口列表 | `hsi-daily-weight` |
-| 外部接口 | GET /gateway/api/v1/market/data/hk/hsi-daily-weight |
+| 外部接口 | GET /api/v1/market/data/hk/hsi-daily-weight |
 | 请求方式 | GET |
 | 适用场景 | 查询恒生系列指数成份股的权重数据，支持按交易日、日期范围、指数代码、股票代码过滤。数据来源 MySQL `xz02.base_data.hsi_daily_weight`。 |
 

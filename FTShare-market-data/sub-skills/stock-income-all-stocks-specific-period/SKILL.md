@@ -10,7 +10,7 @@ description: Get income statement (利润表) for all stocks in a specific repor
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询单报告期所有票利润表 |
-| 外部接口 | GET /gateway/api/v1/market/data/finance/income |
+| 外部接口 | GET /api/v1/market/data/finance/income |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股指定报告期所有股票的利润表，支持沪深京股票，支持分页 |
 

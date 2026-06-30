@@ -10,7 +10,7 @@ description: 分页查询港股估值分析（market.ft.tech）。可按 trade_c
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询港股估值分析（分页） |
-| 外部接口 | `/gateway/api/v1/market/data/hk/hk-valuatnanalyd` |
+| 外部接口 | `/api/v1/market/data/hk/hk-valuatnanalyd` |
 | 请求方式 | GET |
 | 适用场景 | 分页查询 `hkstk_valuatnanalyd` 估值分析明细；可按 `trade_code` 过滤单票，不传则返回全市场分页数据 |
 
@@ -94,11 +94,11 @@ python scripts/handler.py --trade_code 00700.HK --page 1 --page_size 20
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/hk/hk-valuatnanalyd?trade_code=00700.HK&page=1&page_size=20
+GET /api/v1/market/data/hk/hk-valuatnanalyd?trade_code=00700.HK&page=1&page_size=20
 ```
 
 全市场分页（不传 `trade_code`）：
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/hk/hk-valuatnanalyd?page=1&page_size=20
+GET /api/v1/market/data/hk/hk-valuatnanalyd?page=1&page_size=20
 ```

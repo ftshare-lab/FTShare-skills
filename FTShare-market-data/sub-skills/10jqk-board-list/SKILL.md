@@ -10,7 +10,7 @@ description: Get all THS board list (同花顺板块列表). Use when user asks 
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询同花顺板块列表 |
-| 外部接口 | `GET /gateway/api/v1/market/data/ths-board-list` |
+| 外部接口 | `GET /api/v1/market/data/ths-board-list` |
 | 请求方式 | GET |
 | 适用场景 | 查询同花顺全部板块（概念/证监会/行业/地域）的代码与名称列表 |
 
@@ -49,7 +49,7 @@ python <RUN_PY> 10jqk-board-list --search 人工智能
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/ths-board-list
+GET /api/v1/market/data/ths-board-list
 ```
 
 ## 6. 注意事项

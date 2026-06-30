@@ -2,6 +2,7 @@
 """查询单只 A 股股票 OHLC K 线（daec history/ohlcs）"""
 import argparse
 import json
+import os
 import re
 import sys
 import time
@@ -15,8 +16,8 @@ SAFE_URLOPENER = urllib.request.build_opener()
 
 BEIJING_TZ = timezone(timedelta(hours=8))
 
-BASE_URL = "https://market.ft.tech"
-ENDPOINT = "/gateway/api/v1/market/data/daec/history/ohlcs"
+DEFAULT_BASE_URL = "https://market.ft.tech/gateway/"
+ENDPOINT = "api/v1/market/data/daec/history/ohlcs"
 
 def safe_urlopen(req_or_url):
     if isinstance(req_or_url, urllib.request.Request):
@@ -24,7 +25,8 @@ def safe_urlopen(req_or_url):
     else:
         url = str(req_or_url)
     parsed = urllib.parse.urlparse(url)
-    if parsed.scheme != "https" or parsed.netloc != "market.ft.tech":
+    allowed = urllib.parse.urlparse(base_url())
+    if parsed.scheme != allowed.scheme or parsed.netloc != allowed.netloc:
         print(f"Invalid URL for safe_urlopen: {url}", file=sys.stderr)
         sys.exit(1)
     return SAFE_URLOPENER.open(req_or_url)
@@ -35,6 +37,14 @@ HEADERS = {
 }
 
 _DATE_RE = re.compile(r"^\d{8}$")
+
+
+def base_url() -> str:
+    return os.environ.get("FTSHARE_BASE_URL", DEFAULT_BASE_URL).rstrip("/") + "/"
+
+
+def build_url(params: dict) -> str:
+    return urllib.parse.urljoin(base_url(), ENDPOINT) + "?" + urllib.parse.urlencode(params)
 
 
 def ms_to_iso(ms: Optional[int]) -> Optional[str]:
@@ -123,7 +133,7 @@ def fetch(
     until_ts_ms: Optional[int] = None,
 ) -> dict:
     params = build_params(symbol, since, until, interval, adjust, compat, span, limit, until_ts_ms)
-    url = f"{BASE_URL}{ENDPOINT}?{urllib.parse.urlencode(params)}"
+    url = build_url(params)
     data = _get_json(url)
 
     if compat == "v2" and isinstance(data, dict):

@@ -4,11 +4,12 @@ import json
 import sys
 import urllib.error
 import urllib.request
+import os
 
 SAFE_URLOPENER = urllib.request.build_opener()
 
-BASE_URL = "https://market.ft.tech"
-ENDPOINT = "/gateway/api/v1/market/data/index-description-all"
+BASE_URL = os.environ.get("FTSHARE_BASE_URL", "https://market.ft.tech/gateway").rstrip("/")
+ENDPOINT = "/api/v1/market/data/index-description-all"
 
 
 def main():

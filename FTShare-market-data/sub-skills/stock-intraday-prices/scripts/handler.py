@@ -2,6 +2,7 @@
 """查询指定 A 股标的 1 分钟分时数据。"""
 import argparse
 import json
+import os
 import sys
 import urllib.error
 import urllib.parse
@@ -9,8 +10,8 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
-BASE_URL = "https://market.ft.tech"
-ENDPOINT = "/gateway/api/v1/market/data/daec/history/prices"
+DEFAULT_BASE_URL = "https://market.ft.tech/gateway/"
+ENDPOINT = "api/v1/market/data/daec/history/prices"
 
 BEIJING_TZ = timezone(timedelta(hours=8))
 SAFE_URLOPENER = urllib.request.build_opener()
@@ -31,10 +32,19 @@ def safe_urlopen(req_or_url):
     else:
         url = str(req_or_url)
     parsed = urllib.parse.urlparse(url)
-    if parsed.scheme != "https" or parsed.netloc != "market.ft.tech":
+    allowed = urllib.parse.urlparse(base_url())
+    if parsed.scheme != allowed.scheme or parsed.netloc != allowed.netloc:
         print(f"Invalid URL for safe_urlopen: {url}", file=sys.stderr)
         sys.exit(1)
     return SAFE_URLOPENER.open(req_or_url, timeout=60)
+
+
+def base_url() -> str:
+    return os.environ.get("FTSHARE_BASE_URL", DEFAULT_BASE_URL).rstrip("/") + "/"
+
+
+def build_url(params: dict) -> str:
+    return urllib.parse.urljoin(base_url(), ENDPOINT) + "?" + urllib.parse.urlencode(params)
 
 
 def ms_to_iso(ms: Optional[int]) -> Optional[str]:
@@ -92,7 +102,7 @@ def fetch(
     since_ts_ms: int = None,
 ) -> dict:
     params = build_params(symbol, range_, days, ts_ms, compat, since, since_ts_ms)
-    url = f"{BASE_URL}{ENDPOINT}?{urllib.parse.urlencode(params)}"
+    url = build_url(params)
     req = urllib.request.Request(url, headers=HEADERS)
     try:
         with safe_urlopen(req) as resp:

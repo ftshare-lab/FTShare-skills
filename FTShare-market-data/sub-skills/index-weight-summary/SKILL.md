@@ -10,7 +10,7 @@ description: 分页查询指数权重汇总（market.ft.tech）。可按 index_c
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 分页查询指数权重汇总 |
-| 外部接口 | `/gateway/api/v1/market/data/index/index_weight_summary` |
+| 外部接口 | `/api/v1/market/data/index/index_weight_summary` |
 | 请求方式 | GET |
 | 适用场景 | 按指数汇总各期权重数据的 `date` 与 `url_hash`；可用 `index_code` 定位单个指数，便于再调用「下载指数权重文件」获取具体权重表 |
 
@@ -80,5 +80,5 @@ python scripts/handler.py --index-code 000300 --page 1 --page-size 20
 ## 6. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/index/index_weight_summary?index_code=000300&page=1&page_size=20
+GET /api/v1/market/data/index/index_weight_summary?index_code=000300&page=1&page_size=20
 ```

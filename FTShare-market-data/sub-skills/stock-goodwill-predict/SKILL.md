@@ -10,7 +10,7 @@ description: Get goodwill impairment prediction data (商誉减值预期) for st
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询商誉减值预期明细 |
-| 外部接口 | GET /gateway/api/v1/market/data/goodwill/predict |
+| 外部接口 | GET /api/v1/market/data/goodwill/predict |
 | 请求方式 | GET |
 | 适用场景 | 查询商誉减值业绩预告数据，包含预测净利润上下限、业绩变动幅度、上年同期净利润等字段 |
 

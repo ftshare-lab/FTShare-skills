@@ -10,7 +10,7 @@ description: Get goodwill data by industry (行业商誉). Use when user asks ab
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询行业商誉 |
-| 外部接口 | GET /gateway/api/v1/market/data/goodwill/industry |
+| 外部接口 | GET /api/v1/market/data/goodwill/industry |
 | 请求方式 | GET |
 | 适用场景 | 查询各行业的商誉规模、商誉占净资产比例、净利润规模等汇总数据 |
 

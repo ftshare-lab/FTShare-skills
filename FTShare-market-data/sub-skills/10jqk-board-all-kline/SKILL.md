@@ -10,7 +10,7 @@ description: Get THS all boards K-line by date range (同花顺全板块 K 线).
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询同花顺全板块 K 线 |
-| 外部接口 | `GET /gateway/api/v1/market/data/ths-all-board-kline` |
+| 外部接口 | `GET /api/v1/market/data/ths-all-board-kline` |
 | 请求方式 | GET |
 | 适用场景 | 查询同花顺所有板块在指定日期范围内的 K 线数据（分页） |
 
@@ -50,7 +50,7 @@ python <RUN_PY> 10jqk-board-all-kline --start-date 2026-05-20 --page 1 --page-si
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/ths-all-board-kline?start_date=2021-10-01&end_date=2021-10-31&page=1&page_size=50
+GET /api/v1/market/data/ths-all-board-kline?start_date=2021-10-01&end_date=2021-10-31&page=1&page_size=50
 ```
 
 ## 6. 注意事项

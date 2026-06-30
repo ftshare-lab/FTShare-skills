@@ -10,7 +10,7 @@ description: Get cash flow statement (现金流量表) for all stocks in a speci
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询单报告期所有票现金流量表 |
-| 外部接口 | GET /gateway/api/v1/market/data/finance/cashflow |
+| 外部接口 | GET /api/v1/market/data/finance/cashflow |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股指定报告期所有股票的现金流量表，支持沪深京股票，支持分页 |
 

@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询东财市场日估值 |
-| 外部接口 | `/gateway/api/v1/market/data/eastmoney-market-valuation` |
+| 外部接口 | `/api/v1/market/data/eastmoney-market-valuation` |
 | 请求方式 | GET |
 | 适用场景 | 查询 A 股主要市场指数（上证指数、沪深300、深证成指、创业板指、科创50、北证50）的每日估值数据，包括市盈率、总市值、流通市值、收盘点位等；支持单日、区间查询 |
 

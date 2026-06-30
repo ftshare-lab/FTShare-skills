@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询大宗交易列表 |
-| 外部接口 | `/gateway/api/v1/market/data/block-trades` |
+| 外部接口 | `/api/v1/market/data/block-trades` |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股大宗交易记录，包含买卖方营业部、成交价、成交量、溢价率等 |
 

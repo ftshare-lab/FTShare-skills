@@ -10,7 +10,7 @@ description: Get China PPI monthly data (中国 PPI 工业品出厂价格指数 
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | PPI 数据（月度汇总计算结果） |
-| 外部接口 | GET /gateway/api/v1/market/data/economic/china-ppi |
+| 外部接口 | GET /api/v1/market/data/economic/china-ppi |
 | 请求方式 | GET |
 | 适用场景 | 获取中国工业品出厂价格指数 PPI 月度数据，含当月值、同比、环比及当年累计平均等 |
 
@@ -49,7 +49,7 @@ python script/handler.py
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/economic/china-ppi
+GET /api/v1/market/data/economic/china-ppi
 ```
 
 ## 6. 注意事项

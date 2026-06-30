@@ -10,7 +10,7 @@ description: Get A-share market-wide goodwill overview (A股商誉市场概况) 
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询A股商誉市场概况 |
-| 外部接口 | GET /gateway/api/v1/market/data/goodwill/market-overview |
+| 外部接口 | GET /api/v1/market/data/goodwill/market-overview |
 | 请求方式 | GET |
 | 适用场景 | 查询 A 股全市场商誉历史概况，包含商誉规模、减值金额、占净资产/净利润比例等汇总指标 |
 

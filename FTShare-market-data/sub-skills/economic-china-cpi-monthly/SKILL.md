@@ -10,7 +10,7 @@ description: Get China CPI monthly data (居民消费价格指数 月度). Use w
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 居民消费价格指数（月度汇总计算结果） |
-| 外部接口 | GET /gateway/api/v1/market/data/economic/china-cpi |
+| 外部接口 | GET /api/v1/market/data/economic/china-cpi |
 | 请求方式 | GET |
 | 适用场景 | 获取中国居民消费价格指数 CPI 月度汇总数据，含全国/城市/农村当月值及同比、环比等 |
 
@@ -55,7 +55,7 @@ python script/handler.py
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/economic/china-cpi
+GET /api/v1/market/data/economic/china-cpi
 ```
 
 ## 6. 注意事项

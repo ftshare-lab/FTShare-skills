@@ -10,7 +10,7 @@ description: Get single ETF detail (单只 ETF 详情). Use when user asks about
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询单只 ETF 详情 |
-| 外部接口 | `GET /gateway/api/v1/market/data/daec/etf?symbol=:etf` |
+| 外部接口 | `GET /api/v1/market/data/daec/etf?symbol=:etf` |
 | 请求方式 | GET |
 | 适用场景 | 获取 A 股指定 ETF 的详情（名称、行情、盘口、市值、涨跌幅、跟踪指数、投资类型等）；支持通过 masks 按需返回部分字段；带登录态时可能包含是否在默认分组 |
 
@@ -83,7 +83,7 @@ python <RUN_PY> etf-detail --etf 159915.XSHE --masks name,symkey,latest,change_r
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/daec/etf?symbol=510050.XSHG
+GET /api/v1/market/data/daec/etf?symbol=510050.XSHG
 ```
 
 ## 6. 注意事项

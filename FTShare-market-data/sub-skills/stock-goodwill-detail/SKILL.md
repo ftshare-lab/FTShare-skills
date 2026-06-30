@@ -10,7 +10,7 @@ description: Get goodwill detail (商誉明细) for all stocks in a specific yea
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 查询个股商誉明细 |
-| 外部接口 | GET /gateway/api/v1/market/data/goodwill/stock-detail |
+| 外部接口 | GET /api/v1/market/data/goodwill/stock-detail |
 | 请求方式 | GET |
 | 适用场景 | 查询个股的商誉规模、商誉占净资产比例、净利润同比变化等明细数据 |
 

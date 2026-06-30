@@ -10,7 +10,7 @@ description: 查询雪球平台股票关注度/讨论/交易排行榜（market.f
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 雪球排行榜 |
-| 外部接口 | `GET /gateway/api/v1/market/data/xueqiu-rank` |
+| 外部接口 | `GET /api/v1/market/data/xueqiu-rank` |
 | 请求方式 | GET |
 | 适用场景 | 查询雪球平台的股票关注度、讨论热度、交易热度排行榜 |
 

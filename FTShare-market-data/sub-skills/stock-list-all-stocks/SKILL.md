@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 获取所有股票代码列表 |
-| 外部接口 | `/gateway/api/v1/market/data/stock-list` |
+| 外部接口 | `/api/v1/market/data/stock-list` |
 | 请求方式 | GET |
 | 适用场景 | 获取所有 A 股股票的代码和名称列表，支持沪深京股票，自动返回最新交易日的数据 |
 

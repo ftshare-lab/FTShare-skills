@@ -10,7 +10,7 @@ description: 查询指定股票的千股千评市场参与意愿及5日均值变
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 市场参与意愿 |
-| 外部接口 | `GET /gateway/api/v1/market/data/stock-comment/desire` |
+| 外部接口 | `GET /api/v1/market/data/stock-comment/desire` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定股票的市场参与意愿及 5 日均值变化 |
 

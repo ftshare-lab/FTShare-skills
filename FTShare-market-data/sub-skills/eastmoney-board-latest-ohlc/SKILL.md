@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询东财单板块最新 OHLC |
-| 外部接口 | `/gateway/api/v1/market/data/eastmoney-board-latest-ohlc` |
+| 外部接口 | `/api/v1/market/data/eastmoney-board-latest-ohlc` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定东财板块最新 OHLC 行情数据，支持分页 |
 

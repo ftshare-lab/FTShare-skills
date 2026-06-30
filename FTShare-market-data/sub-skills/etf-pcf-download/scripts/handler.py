@@ -10,7 +10,7 @@ import urllib.parse
 from typing import Optional
 SAFE_URLOPENER = urllib.request.build_opener()
 
-BASE_URL = "https://market.ft.tech"
+BASE_URL = os.environ.get("FTSHARE_BASE_URL", "https://market.ft.tech/gateway").rstrip("/")
 
 def safe_urlopen(req_or_url):
     if isinstance(req_or_url, urllib.request.Request):
@@ -18,7 +18,7 @@ def safe_urlopen(req_or_url):
     else:
         url = str(req_or_url)
     parsed = urllib.parse.urlparse(url)
-    if parsed.scheme != "https" or parsed.netloc != "market.ft.tech":
+    if parsed.scheme != urllib.parse.urlparse(BASE_URL).scheme or parsed.netloc != urllib.parse.urlparse(BASE_URL).netloc:
         print(f"Invalid URL for safe_urlopen: {url}", file=sys.stderr)
         sys.exit(1)
     return SAFE_URLOPENER.open(req_or_url)
@@ -57,7 +57,7 @@ def main():
         print(json.dumps({"error": "filename 不得包含路径分隔符"}, ensure_ascii=False), file=sys.stderr)
         sys.exit(1)
 
-    path = f"/gateway/api/v1/market/data/etf-pcf/etf-pcfs/{args.filename}"
+    path = f"/api/v1/market/data/etf-pcf/etf-pcfs/{args.filename}"
     url = BASE_URL + path
     req = urllib.request.Request(url, method="GET")
 

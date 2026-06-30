@@ -11,7 +11,7 @@ description: 查询东财港股指数日K线（恒生指数 HSI / 国企指数 H
 |------|------|
 | 接口名称 | 对外接口-查询东财港股指数日K线 |
 | 匹配键 | `eastmoney-hk-index-daily-kline` |
-| 外部接口 | GET /gateway/api/v1/market/data/eastmoney-hk-index-daily-kline |
+| 外部接口 | GET /api/v1/market/data/eastmoney-hk-index-daily-kline |
 | 请求方式 | GET |
 | 适用场景 | 查询港股指数（恒生、国企、恒生科技等）日 K 线：开高低收、成交量、成交额、振幅、涨跌幅、涨跌额、换手率。数据源东方财富，ClickHouse `em_hk_index_daily_kline`。 |
 

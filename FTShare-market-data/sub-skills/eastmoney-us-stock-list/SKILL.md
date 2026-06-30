@@ -5,7 +5,7 @@
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 查询东财美股列表 |
-| 外部接口 | `/gateway/api/v1/market/data/eastmoney-us-stock-list` |
+| 外部接口 | `/api/v1/market/data/eastmoney-us-stock-list` |
 | 请求方式 | GET |
 | 适用场景 | 获取东财美股全量列表（~5700+ 只），含代码、名称、市值、最新价、涨跌幅、市盈率等字段，支持服务端分页 |
 

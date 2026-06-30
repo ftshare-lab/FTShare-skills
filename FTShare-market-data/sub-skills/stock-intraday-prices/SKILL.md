@@ -10,7 +10,7 @@ description: 查询指定 A 股标的 1 分钟分时数据。Use when user asks 
 | 项目 | 说明 |
 |---|---|
 | 接口名称 | 标的分时数据 |
-| 外部接口 | `GET /gateway/api/v1/market/data/daec/history/prices` |
+| 外部接口 | `GET /api/v1/market/data/daec/history/prices` |
 | 请求方式 | GET |
 | 适用场景 | 查询指定 A 股标的的 1 分钟价格、均价、成交量、成交额，用于当日或多日分时走势；支持 `compat=v2` 返回旧 v2 风格结构 |
 

@@ -94,6 +94,12 @@ python <RUN_PY> economic-china-cpi-monthly
 python <RUN_PY> us-income --stock_code NVDA --period 2024 --report_type Q4
 ```
 
+所有 `market.ft.tech` handler 默认使用 `https://market.ft.tech/gateway`。本地或内网服务可通过环境变量切换 API 地址：
+
+```bash
+FTSHARE_BASE_URL=http://127.0.0.1:8000/ python <RUN_PY> stock-intraday-prices --symbol 600000.XSHG --compat v2 --since TODAY
+```
+
 > `run.py` 内部通过 `__file__` 自定位，无论安装在何处都能正确找到各子 skill 的脚本。
 
 ## 返回类型
@@ -177,21 +183,28 @@ cat sub-skills/stock-list-all-stocks/SKILL.md
 
 ## Base URL 配置
 
-所有接口均以 `https://market.ft.tech` 为基础域名，使用 HTTP GET：
+`market.ft.tech` 接口默认以 `https://market.ft.tech/gateway` 为基础地址，使用 HTTP GET：
 
 ```text
-https://market.ft.tech/gateway/api/v1/market/data/<接口路径>
+/api/v1/market/data/<接口路径>
 ```
 
-少数接口使用不同前缀或域名（由对应 handler 内置，无需手工指定）：
+如需切到本地或内网服务，设置 `FTSHARE_BASE_URL`。变量里是否带 `/gateway` 会原样保留：
+
+```bash
+FTSHARE_BASE_URL=http://127.0.0.1:8000/ python <RUN_PY> stock-list-all-stocks
+FTSHARE_BASE_URL=http://127.0.0.1:8000/gateway/ python <RUN_PY> stock-list-all-stocks
+```
+
+少数接口使用不同域名（由对应 handler 内置，无需手工指定）：
 
 - `stock-security-info` 使用 `https://ftai.chat`。
-- `stock-ohlcs` 和 `stock-intraday-prices` 使用 gateway daec 接口；`stock-prices` 保留旧 app 分时契约。
+- 其他 `market.ft.tech` 接口均可通过 `FTSHARE_BASE_URL` 切换基础地址。
 - 分页列表类接口需在请求头携带 `X-Client-Name: ft-claw`（各 handler 已内置）。
 
 ## 安全与约束
 
-- **域名白名单**：每个 handler 通过 `safe_urlopen` 强制校验请求协议为 `https` 且主机为 `market.ft.tech`，非法 URL 直接拒绝。
+- **域名白名单**：使用 `safe_urlopen` 的 handler 会校验请求协议和主机匹配当前基础地址；设置 `FTSHARE_BASE_URL` 后按该地址校验。
 - **子 skill 白名单**：`run.py` 仅允许 `sub-skills/<名称>/scripts/handler.py` 形态的子 skill，防止路径遍历。
 - **下载落盘限制**：含 `--output` 的下载类接口（如 `index-description-download`、`index-weight-download`、`etf-pcf-download`）仅允许写入**当前工作目录**下的路径。
 - **依赖前序接口的参数**：下载类接口的 `url_hash` / `filename` 须先由对应的列表接口取得，勿硬编码。

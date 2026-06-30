@@ -10,7 +10,7 @@ description: 按证券代码查询限售解禁批次及股东明细（market.ft.
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 按证券代码查询限售解禁 |
-| 外部接口 | `GET /gateway/api/v1/market/data/unlock/stock-unlock` |
+| 外部接口 | `GET /api/v1/market/data/unlock/stock-unlock` |
 | 请求方式 | GET |
 | 适用场景 | 按证券代码分页查询限售解禁批次及股东明细 |
 
@@ -114,5 +114,5 @@ python <RUN_PY> stock-unlock-by-stock --stock_code 000001 --page 1 --page_size 5
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/unlock/stock-unlock?stock_code=000001&page=1&page_size=50
+GET /api/v1/market/data/unlock/stock-unlock?stock_code=000001&page=1&page_size=50
 ```

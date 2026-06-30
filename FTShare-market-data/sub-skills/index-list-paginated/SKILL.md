@@ -10,7 +10,7 @@ description: 指数分页列表，支持分页、排序、筛选（market.ft.tec
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 指数列表（分页、排序、筛选） |
-| 外部接口 | `GET /gateway/api/v1/market/data/daec/indices` |
+| 外部接口 | `GET /api/v1/market/data/daec/indices` |
 | 请求方式 | GET |
 | 适用场景 | 分页获取 A 股指数列表，支持按字段排序、按条件筛选、按需返回字段（masks）；不传分页参数时返回全部（先筛选、排序后再截断） |
 
@@ -107,13 +107,13 @@ python <RUN_PY> index-list-paginated --filter "change_rate >= 0 AND change_rate 
 ## 5. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/daec/indices?order_by=change_rate%20desc&page_size=20&page=1
+GET /api/v1/market/data/daec/indices?order_by=change_rate%20desc&page_size=20&page=1
 ```
 
 ### 完整请求示例（curl）
 
 ```bash
-curl -X GET 'https://market.ft.tech/gateway/api/v1/market/data/daec/indices?order_by=change_rate%20desc&page_size=20&page=1' \
+curl -X GET "<BASE_URL>/api/v1/market/data/daec/indices?order_by=change_rate%20desc&page_size=20&page=1" \
   -H 'X-Client-Name: ft-claw' \
   -H 'Content-Type: application/json'
 ```

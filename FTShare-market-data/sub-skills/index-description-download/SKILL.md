@@ -10,7 +10,7 @@ description: 根据 url_hash 下载指数描述 PDF（market.ft.tech）。前置
 | 项目 | 说明 |
 |------|------|
 | 接口名称 | 下载指数描述文件 |
-| 外部接口 | `/gateway/api/v1/market/data/index/index_description/{url_hash}` |
+| 外部接口 | `/api/v1/market/data/index/index_description/{url_hash}` |
 | 请求方式 | GET |
 | 适用场景 | 根据「分页查询指数描述列表」返回的 `url_hash` 下载对应指数描述文件（内容为 PDF） |
 
@@ -57,5 +57,5 @@ python scripts/handler.py --url-hash <url_hash> --output ./desc.pdf
 ## 6. 请求示例
 
 ```
-GET https://market.ft.tech/gateway/api/v1/market/data/index/index_description/abc123def456
+GET /api/v1/market/data/index/index_description/abc123def456
 ```
